@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class NPuzzleSolver {
     private final int k;
@@ -42,20 +39,23 @@ public class NPuzzleSolver {
         // solve using A* search, use Manhattan distance as heuristic
         // return the path from start to goal
         // if no solution, return null
+        NPuzzleState.resetHashSet();
         PriorityQueue<NPuzzleState> queue = new PriorityQueue<>(cmp);
         queue.add(start);
+        int expanded = 1, explored = 0;
         while (!queue.isEmpty()) {
             NPuzzleState cur = queue.poll();
+            explored++;
             if (cur.equals(goal)) {
+                System.out.println("Nodes explored: " + explored);
+                System.out.println("Nodes expanded: " + expanded);
                 return calculatePath(cur);
             }
             for (NPuzzleState neighbor : cur.getNeighbors()) {
-                if (!neighbor.visited) {
-                    neighbor.visited = true;
-                    neighbor.setPrev(cur);
-                    neighbor.setDistance(cur.getDistance() + 1);
-                    queue.add(neighbor);
-                }
+                expanded++;
+                neighbor.setPrev(cur);
+                neighbor.setDistance(cur.getDistance() + 1);
+                queue.add(neighbor);
             }
         }
         return null;
@@ -84,7 +84,7 @@ public class NPuzzleSolver {
 
     public static void printSolve(int k, int[][] n, String heuristic) {
         NPuzzleSolver solver = new NPuzzleSolver(k, n);
-        ArrayList<NPuzzleState> path = solver.solve("manhattan");
+        ArrayList<NPuzzleState> path = solver.solve(heuristic);
         if (path == null) {
             System.out.println("No solution");
             return;
@@ -93,21 +93,25 @@ public class NPuzzleSolver {
         System.out.println("Total moves: " + (path.size() - 1));
         System.out.println("Moves: " + solver.getMoves());
         for (NPuzzleState state : path) {
-            System.out.println(state.getMove());
+            brightPrint(state.getMove());
             state.printBoard();
         }
     }
 
     public static void main(String[] args) {
-        int k = 4;
+        int k = 3;
         int[][] n = {
-                {2, 3, 7, 4},
-                {1, 6, 11, 8},
-                {5, 10, 0, 15},
-                {9, 13, 12, 14}
+                {0, 1, 3},
+                {4, 2, 5},
+                {7, 8, 6}
         };
+        System.out.println(Arrays.deepToString(n));
         printSolve(k, n, "Manhattan");
         System.out.println();
         printSolve(k, n, "Hamming");
+    }
+
+    public static void brightPrint(String s) {
+        System.out.println("\u001B[0;93m" + s + "\u001B[0m");
     }
 }

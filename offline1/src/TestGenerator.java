@@ -64,22 +64,23 @@ public class TestGenerator {
         TestGenerator tg = new TestGenerator(k);
         PrintStream ps = new PrintStream("src/k3tests.txt");
         System.setOut(ps);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             System.out.println("Test: " + (i + 1));
             int[][] board = tg.generateRandomBoard();
+            NPuzzleState.resetHashSet();
             NPuzzleState state = new NPuzzleState(k, board);
             state.printBoardClassic();
             boolean solvable = state.solvable();
             System.out.println("Solvable: " + solvable);
             if (!solvable) return;
             NPuzzleSolver solver = new NPuzzleSolver(k, board);
-            ArrayList<NPuzzleState> path = solver.solve("manhattan");
+            ArrayList<NPuzzleState> path = solver.solve("hamming");
             System.out.println("Total moves: " + (path.size() - 1));
             System.out.println("Moves: " + solver.getMoves());
-            for (NPuzzleState s : path) {
-                System.out.println(s.getMove());
-                s.printBoard();
-            }
+//            for (NPuzzleState s : path) {
+//                System.out.println(s.getMove());
+//                s.printBoard();
+//            }
             System.out.println("-----------------------------------");
         }
     }

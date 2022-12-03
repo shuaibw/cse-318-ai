@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class NPuzzleState {
     private final int k;
     private final int[][] board;
     private ArrayList<NPuzzleState> neighbors = null;
     private NPuzzleState prev;
+    private static final HashSet<String> expandedStates = new HashSet<>();
     private int distance = 0;
-    public boolean visited;
     private Action action;
 
     public NPuzzleState(int k, int[][] n) {
@@ -25,17 +26,27 @@ public class NPuzzleState {
         System.out.println("**" + sb.substring(2, sb.length() - 2) + "**");
         for (int i = 0; i < k; i++) {
             for (int j = 0; j < k; j++) {
-                System.out.print("|\t" + board[i][j] + "\t");
+                if (board[i][j] != 0)
+                    System.out.print("|\t" + board[i][j] + "\t");
+                else
+                    System.out.print("|\t" + "*" + "\t");
             }
             System.out.println("|");
             System.out.println(sb);
         }
     }
 
+    public static void resetHashSet() {
+        expandedStates.clear();
+    }
+
     public void printBoardClassic() {
         for (int i = 0; i < k; i++) {
             for (int j = 0; j < k; j++) {
-                System.out.print(board[i][j] + "\t");
+                if (board[i][j] != 0)
+                    System.out.print(board[i][j] + "\t");
+                else
+                    System.out.print("*\t");
             }
             System.out.println();
         }
@@ -87,9 +98,13 @@ public class NPuzzleState {
         int temp = board[zeroRow + row][zeroCol + col];
         board[zeroRow][zeroCol] = temp;
         board[zeroRow + row][zeroCol + col] = 0;
-        NPuzzleState n = new NPuzzleState(k, board);
-        n.action = action;
-        neighbors.add(n);
+        String stateHash = Arrays.deepToString(board);
+        if (!expandedStates.contains(stateHash)) {
+            expandedStates.add(stateHash);
+            NPuzzleState n = new NPuzzleState(k, board);
+            n.action = action;
+            neighbors.add(n);
+        }
         //restore board to previous state
         board[zeroRow + row][zeroCol + col] = temp;
         board[zeroRow][zeroCol] = 0;
