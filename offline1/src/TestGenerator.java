@@ -64,7 +64,7 @@ public class TestGenerator {
         TestGenerator tg = new TestGenerator(k);
         PrintStream ps = new PrintStream("src/k3tests.txt");
         System.setOut(ps);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println("Test: " + (i + 1));
             int[][] board = tg.generateRandomBoard();
             NPuzzleState.resetHashSet();
@@ -77,10 +77,10 @@ public class TestGenerator {
             ArrayList<NPuzzleState> path = solver.solve("hamming");
             System.out.println("Total moves: " + (path.size() - 1));
             System.out.println("Moves: " + solver.getMoves());
-//            for (NPuzzleState s : path) {
-//                System.out.println(s.getMove());
-//                s.printBoard();
-//            }
+            for (NPuzzleState s : path) {
+                System.out.println(s.getMove());
+                s.printBoard();
+            }
             System.out.println("-----------------------------------");
         }
     }

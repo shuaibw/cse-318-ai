@@ -79,17 +79,17 @@ public class NPuzzleState {
         int[] zeroPos = findZero();
         int zeroRow = zeroPos[0];
         int zeroCol = zeroPos[1];
-        if (zeroRow > 0) {
-            addNeighbor(-1, 0, zeroRow, zeroCol, neighbors, Action.UP);
-        }
         if (zeroRow < k - 1) {
             addNeighbor(1, 0, zeroRow, zeroCol, neighbors, Action.DOWN);
         }
-        if (zeroCol > 0) {
-            addNeighbor(0, -1, zeroRow, zeroCol, neighbors, Action.LEFT);
-        }
         if (zeroCol < k - 1) {
             addNeighbor(0, 1, zeroRow, zeroCol, neighbors, Action.RIGHT);
+        }
+        if (zeroRow > 0) {
+            addNeighbor(-1, 0, zeroRow, zeroCol, neighbors, Action.UP);
+        }
+        if (zeroCol > 0) {
+            addNeighbor(0, -1, zeroRow, zeroCol, neighbors, Action.LEFT);
         }
         return neighbors;
     }

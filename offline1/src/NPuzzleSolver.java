@@ -99,11 +99,12 @@ public class NPuzzleSolver {
     }
 
     public static void main(String[] args) {
-        int k = 3;
+        int k = 4;
         int[][] n = {
-                {0, 1, 3},
-                {4, 2, 5},
-                {7, 8, 6}
+                {1, 9, 2, 3},
+                {5, 12, 11, 10},
+                {13, 6, 0, 8},
+                {7, 14, 15, 4}
         };
         System.out.println(Arrays.deepToString(n));
         printSolve(k, n, "Manhattan");
