@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.net.Inet4Address;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
@@ -28,5 +30,15 @@ public class ComparatorFactory {
 
     public static Comparator<Variable> randomComp() {
         return Comparator.comparingInt((Variable o) -> random.nextBoolean() ? -1 : 1);
+    }
+
+    public static ArrayList<Comparator<Variable>> getCmpList(){
+        ArrayList<Comparator<Variable>> comparators=new ArrayList<>();
+        comparators.add(minDomainComp());
+        comparators.add(maxDegreeComp());
+        comparators.add(preferDomComp());
+        comparators.add(minDomByDegComp());
+        comparators.add(randomComp());
+        return comparators;
     }
 }

@@ -61,6 +61,47 @@ public class LatinSquare {
         return true;
     }
 
+    public boolean isConsistent(Variable v, int num) {
+        // check along row, col and see if assigning num to v makes any cell's domain empty
+        for (int i = 0; i < n; i++) {
+            if (i == v.r || i == v.c) continue;
+            Variable r = board[i][v.c];
+            Variable c = board[v.r][i];
+            if (r.value == 0 && r.domain.size() == 1 && r.domain.contains(num)) return false;
+            if (c.value == 0 && c.domain.size() == 1 && c.domain.contains(num)) return false;
+        }
+        return true;
+    }
+
+    public void updateConstraints(Variable v, int newVal) {
+        for (int i = 0; i < n; i++) {
+            if (i == v.r || i == v.c) continue;
+            Variable r = board[i][v.c];
+            Variable c = board[v.r][i];
+            boolean rRemoved = r.value == 0 && r.domain.remove(newVal);
+            boolean cRemoved = c.value == 0 && c.domain.remove(newVal);
+            if (rRemoved) r.degree--;
+            if (cRemoved) c.degree--;
+        }
+    }
+
+    public void restoreConstraints(Variable v, int oldVal) {
+        for (int i = 0; i < n; i++) {
+            if (i == v.r || i == v.c) continue;
+            Variable r = board[i][v.c];
+            Variable c = board[v.r][i];
+            if (r.value == 0) {
+                r.domain.add(oldVal);
+                r.degree++;
+            }
+            if (c.value == 0) {
+                c.domain.add(oldVal);
+                c.degree++;
+            }
+        }
+    }
+
+
     @Override
     public String toString() {
         // Generate a string representation of the board
