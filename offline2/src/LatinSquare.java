@@ -100,7 +100,12 @@ public class LatinSquare {
             }
         }
     }
-
+//    public int leastConstrainingValue(Variable v){
+//        ArrayList<Integer> domain=new ArrayList<>();
+//        for (Integer i : v.domain) {
+//
+//        }
+//    }
 
     @Override
     public String toString() {

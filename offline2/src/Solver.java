@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -103,7 +104,10 @@ public class Solver {
             System.out.println("Running test: " + file);
             for (Comparator<Variable> c : comparators) {
                 System.out.println("--Using comparator: " + i + "---");
+                long t1 = System.nanoTime();
                 runTest(c, file, false);
+                long t2 = System.nanoTime();
+                System.out.println("Time in ns: " + (t2 - t1));
                 i++;
             }
         }
