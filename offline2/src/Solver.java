@@ -79,44 +79,51 @@ public class Solver {
     }
 
     public static void main(String[] args) {
-        String[] files = {
-                "../test_cases/d-10-01.txt",
-                "../test_cases/d-10-06.txt",
-                "../test_cases/d-10-07.txt",
-                "../test_cases/d-10-08.txt",
-                "../test_cases/d-10-09.txt",
-                "../test_cases/d-15-01.txt",
-        };
-        ArrayList<Comparator<Variable>> comparators = ComparatorFactory.getCmpList();
-        System.out.println("With Forward Checking");
-        for (String file : files) {
-            int i = 1;
-            System.out.println("Running test: " + file);
-            for (Comparator<Variable> c : comparators) {
-                System.out.println("--Using comparator: " + i + "---");
-                runTest(c, file, true);
-                i++;
-            }
-        }
-        System.out.println("Without Forward Checking");
-        for (String file : files) {
-            int i = 1;
-            System.out.println("Running test: " + file);
-            for (Comparator<Variable> c : comparators) {
-                System.out.println("--Using comparator: " + i + "---");
-                long t1 = System.nanoTime();
-                runTest(c, file, false);
-                long t2 = System.nanoTime();
-                System.out.println("Time in ns: " + (t2 - t1));
-                i++;
-            }
-        }
+//        String[] files = {
+//                "../test_cases/d-10-01.txt",
+//                "../test_cases/d-10-06.txt",
+//                "../test_cases/d-10-07.txt",
+//                "../test_cases/d-10-08.txt",
+//                "../test_cases/d-10-09.txt",
+//                "../test_cases/d-15-01.txt",
+//        };
+//        ArrayList<Comparator<Variable>> comparators = ComparatorFactory.getCmpList();
+//        System.out.println("With Forward Checking");
+//        for (String file : files) {
+//            int i = 1;
+//            System.out.println("Running test: " + file);
+//            for (Comparator<Variable> c : comparators) {
+//                System.out.println("--Using comparator: " + i + "---");
+//                runTest(c, file, true);
+//                i++;
+//            }
+//        }
+//        System.out.println("Without Forward Checking");
+//        for (String file : files) {
+//            int i = 1;
+//            System.out.println("Running test: " + file);
+//            for (Comparator<Variable> c : comparators) {
+//                System.out.println("--Using comparator: " + i + "---");
+//                runTest(c, file, false);
+//                i++;
+//            }
+//        }
+        LatinSquare board = Util.readTestCase("test_cases/d-15-01.txt");
+        long t1 = System.nanoTime();
+        board.initDomains();
+        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(true);
+        long t2 = System.nanoTime();
+        System.out.println("Time in ns: " + (t2 - t1));
+        System.out.println(res);
     }
 
     public static void runTest(Comparator<Variable> cmp, String filePath, boolean useFc) {
         LatinSquare board = Util.readTestCase(filePath);
+        long t1 = System.nanoTime();
         board.initDomains();
         LatinSquare res = new Solver(board, cmp).solve(useFc);
+        long t2 = System.nanoTime();
+        System.out.println("Time in ns: " + (t2 - t1));
         System.out.println(res);
     }
 }
