@@ -1,0 +1,129 @@
+Running test: ../test_cases/d-10-01.txt
+--Using comparator: 1---
+Explored: 450473
+Backtracks: 1096627
+Time in ms: 298.535819
+
+--Using comparator: 2---
+Explored: 2928097
+Backtracks: 7424685
+Time in ms: 1814.605322
+
+--Using comparator: 3---
+Explored: 217384
+Backtracks: 588202
+Time in ms: 137.232202
+
+--Using comparator: 4---
+Explored: 217384
+Backtracks: 588202
+Time in ms: 144.148692
+
+--Using comparator: 5---
+Explored: 69455201
+Backtracks: 156923151
+Time in ms: 51292.803623
+
+Running test: ../test_cases/d-10-06.txt
+--Using comparator: 1---
+Explored: 119067
+Backtracks: 355076
+Time in ms: 70.704481
+
+--Using comparator: 2---
+Explored: 200637
+Backtracks: 519527
+Time in ms: 122.108393
+
+--Using comparator: 3---
+Explored: 20774
+Backtracks: 61923
+Time in ms: 15.283112
+
+--Using comparator: 4---
+Explored: 20769
+Backtracks: 61906
+Time in ms: 16.614531
+
+--Using comparator: 5---
+Explored: 578643
+Backtracks: 1485599
+Time in ms: 434.854629
+
+Running test: ../test_cases/d-10-07.txt
+--Using comparator: 1---
+Explored: 100189
+Backtracks: 267501
+Time in ms: 67.83984
+
+--Using comparator: 2---
+Explored: 3467200
+Backtracks: 8341173
+Time in ms: 2144.963666
+
+--Using comparator: 3---
+Explored: 48868
+Backtracks: 110819
+Time in ms: 31.596998
+
+--Using comparator: 4---
+Explored: 48868
+Backtracks: 110819
+Time in ms: 36.268958
+
+--Using comparator: 5---
+Explored: 135783001
+Backtracks: 304518847
+Time in ms: 99503.061373
+
+Running test: ../test_cases/d-10-08.txt
+--Using comparator: 1---
+Explored: 424230
+Backtracks: 1230159
+Time in ms: 261.345753
+
+--Using comparator: 2---
+Explored: 270678388
+Backtracks: 679271441
+Time in ms: 151576.923709
+
+--Using comparator: 3---
+Explored: 30045815
+Backtracks: 86260528
+Time in ms: 20176.588526
+
+--Using comparator: 4---
+Explored: 30045815
+Backtracks: 86260528
+Time in ms: 20751.091735
+
+--Using comparator: 5---
+Explored: 217316866
+Backtracks: 536891604
+Time in ms: 164085.122806
+
+Running test: ../test_cases/d-10-09.txt
+--Using comparator: 1---
+Explored: 1225880
+Backtracks: 3680281
+Time in ms: 702.935637
+
+--Using comparator: 2---
+Explored: 203984
+Backtracks: 590622
+Time in ms: 123.575606
+
+--Using comparator: 3---
+Explored: 16177286
+Backtracks: 48534935
+Time in ms: 10209.010819
+
+--Using comparator: 4---
+Explored: 16287885
+Backtracks: 49055830
+Time in ms: 10547.401865
+
+--Using comparator: 5---
+Explored: 72185277
+Backtracks: 211931801
+Time in ms: 56123.254177

@@ -17,10 +17,8 @@ public class ComparatorFactory {
 
     public static Comparator<Variable> preferDomComp() {
         return (a, b) -> {
-            if (a.domain.size() != b.domain.size()) {
-                return Integer.compare(a.domain.size(), b.domain.size());
-            }
-            return -Integer.compare(a.degree, b.degree);
+            int c = Integer.compare(a.domain.size(), b.domain.size());
+            return c != 0 ? c : -Integer.compare(a.degree, b.degree);
         };
     }
 
@@ -32,8 +30,8 @@ public class ComparatorFactory {
         return Comparator.comparingInt((Variable o) -> random.nextBoolean() ? -1 : 1);
     }
 
-    public static ArrayList<Comparator<Variable>> getCmpList(){
-        ArrayList<Comparator<Variable>> comparators=new ArrayList<>();
+    public static ArrayList<Comparator<Variable>> getCmpList() {
+        ArrayList<Comparator<Variable>> comparators = new ArrayList<>();
         comparators.add(minDomainComp());
         comparators.add(maxDegreeComp());
         comparators.add(preferDomComp());

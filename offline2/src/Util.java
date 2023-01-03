@@ -43,4 +43,8 @@ public class Util {
         }
         return latinSquare;
     }
+
+    public static void main(String[] args) {
+        System.out.println(readTestCase("test_cases/d-15-01.txt"));
+    }
 }

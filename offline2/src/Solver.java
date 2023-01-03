@@ -1,8 +1,5 @@
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.*;
 
 public class Solver {
     LatinSquare ls;
@@ -34,10 +31,11 @@ public class Solver {
 ////            System.out.println("Backtracks: " + backtracks);
 //            System.out.println(pq.size());
 //        }
-        boolean noSafeFound = true;
-        for (Integer i : v.domain) {
-            if (!ls.isSafe(v.r, v.c, i)) continue;
-            noSafeFound = false;
+        for (Integer i : ls.leastConstrainingValue(v)) {
+            if (!ls.isSafe(v.r, v.c, i)) {
+                backtracks++;
+                continue;
+            }
             v.value = i;
             LatinSquare res = backtrack(pq);
             if (res != null) {
@@ -45,7 +43,6 @@ public class Solver {
             }
             v.value = 0;
         }
-        if (noSafeFound) backtracks++;
         pq.add(v);
         return null;
     }
@@ -59,34 +56,49 @@ public class Solver {
 ////            System.out.println("Backtracks: " + backtracks);
 //            System.out.println(pq.size());
 //        }
-        boolean noSafeFound = true;
+        ArrayList<Integer> dom=ls.leastConstrainingValue(v);
+//        if(dom.size()!=v.domain.size())
+//            ls.leastConstrainingValue(v);
         for (Integer i : v.domain) {
-            if (!ls.isSafe(v.r, v.c, i) || !ls.isConsistent(v, i)) continue;
-            noSafeFound = false;
-            int oldVal = v.value;
-            v.value = i;
-            ls.updateConstraints(v, i);
-            LatinSquare res = backtrack(pq);
-            if (res != null) {
-                return res;
+            if (!ls.isSafe(v.r, v.c, i)) {
+                backtracks++;
+                continue;
             }
-            ls.restoreConstraints(v, oldVal);
+            v.value = i;
+            if (ls.isConsistent(v, i)) {
+                ls.updateConstraints(v, i);
+                LatinSquare res = backtrackWithForwardCheck(pq);
+                if (res != null) {
+                    return res;
+                }
+                ls.restoreConstraints(v, i);
+            }
             v.value = 0;
         }
-        if (noSafeFound) backtracks++;
         pq.add(v);
         return null;
     }
 
+//    private LatinSquare backtrackV2(ArrayList<Variable> ara){
+//        if(ara.isEmpty()) return ls;
+//        Variable v = ara.stream().min(Comparator.comparingInt(a -> a.domain.size())).get();
+//        ara.remove(v);
+//        explored++;
+//        boolean noSafeFound=true;
+//        for (Integer i : v.domain) {
+//            if(!ls.isSafe(v.r, v.c, i) || !ls.isConsistent(v, i))
+//        }
+//    }
+
     public static void main(String[] args) {
-//        String[] files = {
-//                "../test_cases/d-10-01.txt",
-//                "../test_cases/d-10-06.txt",
-//                "../test_cases/d-10-07.txt",
-//                "../test_cases/d-10-08.txt",
-//                "../test_cases/d-10-09.txt",
-//                "../test_cases/d-15-01.txt",
-//        };
+        String[] files = {
+//                "test_cases/d-10-01.txt",
+//                "test_cases/d-10-06.txt",
+//                "test_cases/d-10-07.txt",
+//                "test_cases/d-10-08.txt",
+//                "test_cases/d-10-09.txt",
+//                "test_cases/d-15-01.txt",
+        };
 //        ArrayList<Comparator<Variable>> comparators = ComparatorFactory.getCmpList();
 //        System.out.println("With Forward Checking");
 //        for (String file : files) {
@@ -108,12 +120,12 @@ public class Solver {
 //                i++;
 //            }
 //        }
-        LatinSquare board = Util.readTestCase("test_cases/d-15-01.txt");
+        LatinSquare board = Util.readTestCase("test_cases/d-10-01.txt");
         long t1 = System.nanoTime();
         board.initDomains();
-        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(true);
+        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(false);
         long t2 = System.nanoTime();
-        System.out.println("Time in ns: " + (t2 - t1));
+        System.out.println("Time in ms: " + (t2 - t1) / 1000000.0);
         System.out.println(res);
     }
 
@@ -123,7 +135,7 @@ public class Solver {
         board.initDomains();
         LatinSquare res = new Solver(board, cmp).solve(useFc);
         long t2 = System.nanoTime();
-        System.out.println("Time in ns: " + (t2 - t1));
+        System.out.println("Time in ms: " + (t2 - t1) / 1000000.0);
         System.out.println(res);
     }
 }
