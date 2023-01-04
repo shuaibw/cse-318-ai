@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Variable {
@@ -6,7 +5,6 @@ public class Variable {
     public HashSet<Integer> domain;
     public int value;
     public int degree;
-    public boolean[] removed = new boolean[100];
 
     public Variable(int r, int c, int value) {
         this.r = r;
@@ -18,5 +16,23 @@ public class Variable {
     @Override
     public String toString() {
         return String.format("[%d, %d]=%d, dom=%s, deg=%d\n", r, c, value, domain, degree);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Variable variable = (Variable) o;
+
+        if (r != variable.r) return false;
+        return c == variable.c;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = r;
+        result = 31 * result + c;
+        return result;
     }
 }

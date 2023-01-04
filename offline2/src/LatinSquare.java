@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class LatinSquare {
     public final int n;
@@ -81,43 +79,43 @@ public class LatinSquare {
         return true;
     }
 
-    public void updateConstraints(Variable v, int newVal) {
+    public void updateConstraints(Variable v, int newVal, HashSet<Variable> set) {
         for (int i = 0; i < n; i++) {
             if (i != v.r) {
                 Variable r = board[i][v.c];
-                boolean rRemoved = (r.value == 0 && r.domain.remove(newVal));
-                if (rRemoved) {
-                    r.degree--;
-                    r.removed[newVal] = true;
+                if (r.value == 0) r.degree--;
+                if (r.domain.contains(newVal)) {
+                    r.domain.remove(newVal);
+                    set.add(r);
                 }
             }
             if (i != v.c) {
                 Variable c = board[v.r][i];
-                boolean cRemoved = c.value == 0 && c.domain.remove(newVal);
-                if (cRemoved) {
-                    c.degree--;
-                    c.removed[newVal] = true;
+                if (c.value == 0) c.degree--;
+                if (c.domain.contains(newVal)) {
+                    c.domain.remove(newVal);
+                    set.add(c);
                 }
             }
         }
     }
 
-    public void restoreConstraints(Variable v, int val) {
+    public void restoreConstraints(Variable v, int val, HashSet<Variable> set) {
         for (int i = 0; i < n; i++) {
             if (i != v.r) {
                 Variable r = board[i][v.c];
-                if (r.value == 0 && r.removed[val]) {
+                if (r.value == 0) r.degree++;
+                if (set.contains(r)) {
                     r.domain.add(val);
-                    r.degree++;
-                    r.removed[val] = false;
+                    set.remove(r);
                 }
             }
             if (i != v.c) {
                 Variable c = board[v.r][i];
-                if (c.value == 0 && c.removed[val]) {
-                    c.domain.add(val);
-                    c.degree++;
-                    c.removed[val] = false;
+                if (c.value == 0) c.degree++;
+                if (set.contains(c)) {
+                    c.domain.add((val));
+                    set.remove(c);
                 }
             }
         }

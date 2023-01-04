@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
@@ -18,7 +16,7 @@ public class ComparatorFactory {
     public static Comparator<Variable> preferDomComp() {
         return (a, b) -> {
             int c = Integer.compare(a.domain.size(), b.domain.size());
-            return c != 0 ? c : -Integer.compare(a.degree, b.degree);
+            return c != 0 ? c : Integer.compare(a.degree, b.degree);
         };
     }
 
