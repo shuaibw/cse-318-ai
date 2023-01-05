@@ -15,7 +15,8 @@ public class Solver {
 
     public LatinSquare solve(boolean useFc) {
         ArrayList<Variable> vars = ls.getVars();
-        PriorityQueue<Variable> pq = new PriorityQueue<>(cmp);
+        TreeSet<Variable> pq = new TreeSet<>(cmp);
+//        PriorityQueue<Variable> pq = new PriorityQueue<>(cmp);
         pq.addAll(vars);
         LatinSquare sol = useFc ? backtrackWithForwardCheck(pq) : backtrack(pq);
         System.out.println("Explored: " + (explored + backtracks));
@@ -23,9 +24,9 @@ public class Solver {
         return sol;
     }
 
-    private LatinSquare backtrack(PriorityQueue<Variable> pq) {
-        if (pq.isEmpty()) return ls;
-        Variable v = pq.poll();
+    private LatinSquare backtrack(TreeSet<Variable> pq) {
+        Variable v = pq.pollFirst();
+        if (v == null) return ls;
         explored++;
         for (Integer i : ls.leastConstrainingValue(v)) {
             if (!ls.isSafe(v.r, v.c, i)) {
@@ -43,9 +44,9 @@ public class Solver {
         return null;
     }
 
-    private LatinSquare backtrackWithForwardCheck(PriorityQueue<Variable> pq) {
-        if (pq.isEmpty()) return ls;
-        Variable v = pq.poll();
+    private LatinSquare backtrackWithForwardCheck(TreeSet<Variable> pq) {
+        Variable v = pq.pollFirst();
+        if (v == null) return ls;
         explored++;
         for (Integer i : ls.leastConstrainingValue(v)) {
             v.value = i;
@@ -67,14 +68,14 @@ public class Solver {
         return null;
     }
 
-    public static void main(String[] args) throws Exception{
-        MultiPrintStream ms=new MultiPrintStream(
-                new PrintStream(System.out, true),
-                new PrintStream(new FileOutputStream("log.txt"), true)
-        );
-        System.setOut(ms);
-        runAll();
-//        runSingle("test_cases/d-10-01.txt");
+    public static void main(String[] args) throws Exception {
+//        MultiPrintStream ms=new MultiPrintStream(
+//                new PrintStream(System.out, true),
+//                new PrintStream(new FileOutputStream("log.txt"), true)
+//        );
+//        System.setOut(ms);
+//        runAll();
+        runSingle("test_cases/d-15-01.txt");
     }
 
     private static void runAll() {
@@ -113,7 +114,7 @@ public class Solver {
         LatinSquare board = Util.readTestCase(filename);
         long t1 = System.nanoTime();
         board.initDomains();
-        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(false);
+        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(true);
         long t2 = System.nanoTime();
         System.out.println("Time in ms: " + (t2 - t1) / 1000000.0);
         System.out.println(res);
