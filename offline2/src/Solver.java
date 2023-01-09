@@ -18,7 +18,7 @@ public class Solver {
         PriorityQueue<Variable> pq = new PriorityQueue<>(cmp);
         pq.addAll(vars);
         LatinSquare sol = useFc ? backtrackWithForwardCheck(pq) : backtrack(pq);
-        System.out.println("Explored: " + (explored + backtracks));
+        System.out.println("Explored: " + explored);
         System.out.println("Backtracks: " + backtracks);
         return sol;
     }
@@ -27,11 +27,10 @@ public class Solver {
         if (pq.isEmpty()) return ls;
         Variable v = pq.poll();
         explored++;
+        boolean recursed = false;
         for (Integer i : ls.leastConstrainingValue(v)) {
-            if (!ls.isSafe(v.r, v.c, i)) {
-                backtracks++;
-                continue;
-            }
+            if (!ls.isSafe(v.r, v.c, i)) continue;
+            recursed = true;
             v.value = i;
             LatinSquare res = backtrack(pq);
             if (res != null) {
@@ -39,6 +38,7 @@ public class Solver {
             }
             v.value = 0;
         }
+        if (!recursed) backtracks++;
         pq.add(v);
         return null;
     }
@@ -47,34 +47,36 @@ public class Solver {
         if (pq.isEmpty()) return ls;
         Variable v = pq.poll();
         explored++;
+        boolean recursed = false;
         for (Integer i : ls.leastConstrainingValue(v)) {
             v.value = i;
             v.domain.remove(i);
             if (ls.isConsistent(v, i)) {
+                recursed = true;
                 HashSet<Variable> updatedNodes = new HashSet<>();
-                ls.updateConstraints(v, i, updatedNodes);
+                ls.updateConstraints(v, i, updatedNodes, pq);
                 LatinSquare res = backtrackWithForwardCheck(pq);
                 if (res != null) {
                     return res;
                 }
-                ls.restoreConstraints(v, i, updatedNodes);
+                ls.restoreConstraints(v, i, updatedNodes, pq);
             }
-            backtracks++;
             v.value = 0;
             v.domain.add(i);
         }
+        if (!recursed) backtracks++;
         pq.add(v);
         return null;
     }
 
-    public static void main(String[] args) throws Exception{
-        MultiPrintStream ms=new MultiPrintStream(
-                new PrintStream(System.out, true),
-                new PrintStream(new FileOutputStream("log.txt"), true)
-        );
-        System.setOut(ms);
-        runAll();
-//        runSingle("test_cases/d-10-01.txt");
+    public static void main(String[] args) throws Exception {
+//        MultiPrintStream ms=new MultiPrintStream(
+//                new PrintStream(System.out, true),
+//                new PrintStream(new FileOutputStream("log.txt"), true)
+//        );
+//        System.setOut(ms);
+//        runAll();
+        runSingle("test_cases/d-15-01.txt");
     }
 
     private static void runAll() {
@@ -84,7 +86,7 @@ public class Solver {
                 "test_cases/d-10-07.txt",
                 "test_cases/d-10-08.txt",
                 "test_cases/d-10-09.txt",
-                "test_cases/d-15-01.txt",
+//                "test_cases/d-15-01.txt",
         };
         ArrayList<Comparator<Variable>> comparators = ComparatorFactory.getCmpList();
         System.out.println("With Forward Checking");
@@ -113,7 +115,7 @@ public class Solver {
         LatinSquare board = Util.readTestCase(filename);
         long t1 = System.nanoTime();
         board.initDomains();
-        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(false);
+        LatinSquare res = new Solver(board, ComparatorFactory.preferDomComp()).solve(true);
         long t2 = System.nanoTime();
         System.out.println("Time in ms: " + (t2 - t1) / 1000000.0);
         System.out.println(res);

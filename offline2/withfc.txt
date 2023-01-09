@@ -1,129 +1,129 @@
 Running test: ../test_cases/d-10-01.txt
 --Using comparator: 1---
-Explored: 24379
-Backtracks: 19088
-Time in ms: 102.932572
+Explored: 100
+Backtracks: 5
+Time in ms: 13.755126										
 
 --Using comparator: 2---
-Explored: 93671906
-Backtracks: 115662652
-Time in ms: 106583.690011
+Explored: 978767
+Backtracks: 249547
+Time in ms: 3179.617702										
 
 --Using comparator: 3---
-Explored: 665
-Backtracks: 296
-Time in ms: 2.999941
+Explored: 92
+Backtracks: 2
+Time in ms: 1.882833										
 
 --Using comparator: 4---
-Explored: 1002
-Backtracks: 382
-Time in ms: 4.464361
+Explored: 134
+Backtracks: 10
+Time in ms: 5.428297										
 
 --Using comparator: 5---
-Explored: 120250533
-Backtracks: 120653001
-Time in ms: 147630.699658
+Explored: 11671
+Backtracks: 2846
+Time in ms: 75.571543										
 
 Running test: ../test_cases/d-10-06.txt
 --Using comparator: 1---
-Explored: 451284
-Backtracks: 362926
-Time in ms: 498.279715
+Explored: 123
+Backtracks: 8
+Time in ms: 0.867415										
 
 --Using comparator: 2---
-Explored: 2214587
-Backtracks: 3129324
-Time in ms: 2425.255066
+Explored: 4120914
+Backtracks: 1119832
+Time in ms: 11878.44218										
 
 --Using comparator: 3---
-Explored: 84364
-Backtracks: 50933
-Time in ms: 87.605496
+Explored: 57
+Backtracks: 0
+Time in ms: 0.554609										
 
 --Using comparator: 4---
-Explored: 83083
-Backtracks: 51488
-Time in ms: 87.006991
+Explored: 57
+Backtracks: 0
+Time in ms: 0.507909										
 
 --Using comparator: 5---
-Explored: 7044944
-Backtracks: 8096524
-Time in ms: 8359.820252
+Explored: 843388
+Backtracks: 223702
+Time in ms: 3358.324562										
 
 Running test: ../test_cases/d-10-07.txt
 --Using comparator: 1---
-Explored: 143859
-Backtracks: 105117
-Time in ms: 155.58115
+Explored: 57
+Backtracks: 0
+Time in ms: 0.519609										
 
 --Using comparator: 2---
-Explored: 46987974
-Backtracks: 55151903
-Time in ms: 52094.803179
+Explored: 1071007
+Backtracks: 269721
+Time in ms: 3229.163939										
 
 --Using comparator: 3---
-Explored: 10424
-Backtracks: 6717
-Time in ms: 14.834497
+Explored: 72
+Backtracks: 3
+Time in ms: 0.656311										
 
 --Using comparator: 4---
-Explored: 15372
-Backtracks: 11173
-Time in ms: 17.27403
+Explored: 96
+Backtracks: 7
+Time in ms: 0.872715										
 
 --Using comparator: 5---
-Explored: 45195402
-Backtracks: 45973700
-Time in ms: 53808.870652
+Explored: 695000
+Backtracks: 175957
+Time in ms: 2827.012942										
 
 Running test: ../test_cases/d-10-08.txt
 --Using comparator: 1---
-Explored: 524365
-Backtracks: 481008
-Time in ms: 582.316691
+Explored: 198
+Backtracks: 9
+Time in ms: 0.895415										
 
 --Using comparator: 2---
-Explored: 2219501
-Backtracks: 3071439
-Time in ms: 2475.12289
+Explored: 1965
+Backtracks: 518
+Time in ms: 6.049606										
 
 --Using comparator: 3---
-Explored: 2318987
-Backtracks: 1815075
-Time in ms: 2437.652453
+Explored: 938
+Backtracks: 89
+Time in ms: 3.412959										
 
 --Using comparator: 4---
-Explored: 2322561
-Backtracks: 1840567
-Time in ms: 2457.455625
+Explored: 1591
+Backtracks: 196
+Time in ms: 6.732718										
 
 --Using comparator: 5---
-Explored: 255641
-Backtracks: 302907
-Time in ms: 300.533402
+Explored: 16332
+Backtracks: 4223
+Time in ms: 67.434681										
 
 Running test: ../test_cases/d-10-09.txt
 --Using comparator: 1---
-Explored: 30875
-Backtracks: 27011
-Time in ms: 33.05554
+Explored: 57
+Backtracks: 0
+Time in ms: 0.469509										
 
 --Using comparator: 2---
-Explored: 2387247067
-Backtracks: 3868210293
-Time in ms: 2641196.001217
+Explored: 10224
+Backtracks: 2941
+Time in ms: 28.161393										
 
 --Using comparator: 3---
-Explored: 1328349
-Backtracks: 1004392
-Time in ms: 1370.634878
+Explored: 57
+Backtracks: 0
+Time in ms: 0.410508										
 
 --Using comparator: 4---
-Explored: 1711481
-Backtracks: 1319629
-Time in ms: 1795.98435
+Explored: 74
+Backtracks: 6
+Time in ms: 0.473409										
 
 --Using comparator: 5---
-Explored: 569883266
-Backtracks: 749575720
-Time in ms: 668437.709968
+Explored: 5053449
+Backtracks: 1326099
+Time in ms: 19339.684728										

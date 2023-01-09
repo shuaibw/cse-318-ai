@@ -1,129 +1,130 @@
 Running test: ../test_cases/d-10-01.txt
 --Using comparator: 1---
 Explored: 450473
-Backtracks: 1096627
-Time in ms: 298.535819
+Backtracks: 131339
+Time in ms: 273.490264
 
 --Using comparator: 2---
 Explored: 2928097
-Backtracks: 7424685
-Time in ms: 1814.605322
+Backtracks: 845029
+Time in ms: 1908.984251
 
 --Using comparator: 3---
 Explored: 217384
-Backtracks: 588202
-Time in ms: 137.232202
+Backtracks: 53004
+Time in ms: 146.467359
 
 --Using comparator: 4---
 Explored: 217384
-Backtracks: 588202
-Time in ms: 144.148692
+Backtracks: 53004
+Time in ms: 160.023205
 
 --Using comparator: 5---
-Explored: 69455201
-Backtracks: 156923151
-Time in ms: 51292.803623
+Explored: 286127551
+Backtracks: 84634490
+Time in ms: 221826.28408
 
 Running test: ../test_cases/d-10-06.txt
 --Using comparator: 1---
 Explored: 119067
-Backtracks: 355076
-Time in ms: 70.704481
+Backtracks: 32945
+Time in ms: 76.946879
 
 --Using comparator: 2---
 Explored: 200637
-Backtracks: 519527
-Time in ms: 122.108393
+Backtracks: 53439
+Time in ms: 133.247516
 
 --Using comparator: 3---
 Explored: 20774
-Backtracks: 61923
-Time in ms: 15.283112
+Backtracks: 5711
+Time in ms: 15.924465
 
 --Using comparator: 4---
 Explored: 20769
-Backtracks: 61906
-Time in ms: 16.614531
+Backtracks: 5711
+Time in ms: 19.189119
 
 --Using comparator: 5---
-Explored: 578643
-Backtracks: 1485599
-Time in ms: 434.854629
+Explored: 195008006
+Backtracks: 59595357
+Time in ms: 152881.413097
 
 Running test: ../test_cases/d-10-07.txt
 --Using comparator: 1---
 Explored: 100189
-Backtracks: 267501
-Time in ms: 67.83984
+Backtracks: 25873
+Time in ms: 75.47121
 
 --Using comparator: 2---
 Explored: 3467200
-Backtracks: 8341173
-Time in ms: 2144.963666
+Backtracks: 1015808
+Time in ms: 2321.599749
 
 --Using comparator: 3---
 Explored: 48868
-Backtracks: 110819
-Time in ms: 31.596998
+Backtracks: 14604
+Time in ms: 32.383805
 
 --Using comparator: 4---
 Explored: 48868
-Backtracks: 110819
-Time in ms: 36.268958
+Backtracks: 14604
+Time in ms: 29.812856
 
 --Using comparator: 5---
-Explored: 135783001
-Backtracks: 304518847
-Time in ms: 99503.061373
+Explored: 173049739
+Backtracks: 49552889
+Time in ms: 131636.809409
 
 Running test: ../test_cases/d-10-08.txt
 --Using comparator: 1---
 Explored: 424230
-Backtracks: 1230159
-Time in ms: 261.345753
+Backtracks: 118604
+Time in ms: 276.105793
 
 --Using comparator: 2---
 Explored: 270678388
-Backtracks: 679271441
-Time in ms: 151576.923709
+Backtracks: 71398699
+Time in ms: 162506.869674
 
 --Using comparator: 3---
 Explored: 30045815
-Backtracks: 86260528
-Time in ms: 20176.588526
+Backtracks: 8386044
+Time in ms: 21103.57986
 
 --Using comparator: 4---
 Explored: 30045815
-Backtracks: 86260528
-Time in ms: 20751.091735
+Backtracks: 8386044
+Time in ms: 21734.541912
 
 --Using comparator: 5---
-Explored: 217316866
-Backtracks: 536891604
-Time in ms: 164085.122806
+Explored: 10159
+Backtracks: 2807
+Time in ms: 8.43945
 
 Running test: ../test_cases/d-10-09.txt
 --Using comparator: 1---
 Explored: 1225880
-Backtracks: 3680281
-Time in ms: 702.935637
+Backtracks: 387908
+Time in ms: 773.496635
 
 --Using comparator: 2---
 Explored: 203984
-Backtracks: 590622
-Time in ms: 123.575606
+Backtracks: 54536
+Time in ms: 131.973587
 
 --Using comparator: 3---
 Explored: 16177286
-Backtracks: 48534935
-Time in ms: 10209.010819
+Backtracks: 4759592
+Time in ms: 10808.380075
 
 --Using comparator: 4---
 Explored: 16287885
-Backtracks: 49055830
-Time in ms: 10547.401865
+Backtracks: 4782504
+Time in ms: 11236.47162
 
 --Using comparator: 5---
-Explored: 72185277
-Backtracks: 211931801
-Time in ms: 56123.254177
+Explored: 69177541
+Backtracks: 19735367
+Time in ms: 55426.884938
+

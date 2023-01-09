@@ -79,45 +79,57 @@ public class LatinSquare {
         return true;
     }
 
-    public void updateConstraints(Variable v, int newVal, HashSet<Variable> set) {
+    public void updateConstraints(Variable v, int newVal, HashSet<Variable> set, PriorityQueue<Variable> pq) {
         for (int i = 0; i < n; i++) {
             if (i != v.r) {
                 Variable r = board[i][v.c];
-                if (r.value == 0) r.degree--;
-                if (r.domain.contains(newVal)) {
-                    r.domain.remove(newVal);
-                    set.add(r);
-                }
+                updateVar(newVal, set, pq, r);
+
             }
             if (i != v.c) {
                 Variable c = board[v.r][i];
-                if (c.value == 0) c.degree--;
-                if (c.domain.contains(newVal)) {
-                    c.domain.remove(newVal);
-                    set.add(c);
-                }
+                updateVar(newVal, set, pq, c);
             }
         }
     }
 
-    public void restoreConstraints(Variable v, int val, HashSet<Variable> set) {
+    private void updateVar(int newVal, HashSet<Variable> set, PriorityQueue<Variable> pq, Variable r) {
+        boolean containsVal = r.domain.contains(newVal);
+        boolean isZero = r.value == 0;
+        if (isZero) r.degree--;
+        if (containsVal) {
+            r.domain.remove(newVal);
+            set.add(r);
+        }
+        if (isZero || containsVal) {
+            if (pq.remove(r)) pq.add(r);
+        }
+    }
+
+    public void restoreConstraints(Variable v, int val, HashSet<Variable> set, PriorityQueue<Variable> pq) {
         for (int i = 0; i < n; i++) {
             if (i != v.r) {
                 Variable r = board[i][v.c];
-                if (r.value == 0) r.degree++;
-                if (set.contains(r)) {
-                    r.domain.add(val);
-                    set.remove(r);
-                }
+                restoreVar(r, set, val, pq);
             }
             if (i != v.c) {
                 Variable c = board[v.r][i];
-                if (c.value == 0) c.degree++;
-                if (set.contains(c)) {
-                    c.domain.add((val));
-                    set.remove(c);
-                }
+                restoreVar(c, set, val, pq);
             }
+        }
+    }
+
+    private void restoreVar(Variable r, HashSet<Variable> set, int val, PriorityQueue<Variable> pq) {
+        boolean isZero = r.value == 0;
+        boolean containsVal = set.contains(r);
+        if (isZero) r.degree++;
+        if (containsVal) {
+            r.domain.add(val);
+            set.remove(r);
+        }
+        if (isZero || containsVal) {
+            if (pq.remove(r)) pq.add(r);
+
         }
     }
 
