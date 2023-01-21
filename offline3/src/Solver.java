@@ -97,7 +97,7 @@ public class Solver {
 
         for (int i = 0; i < iterations; i++) {
             Vertex[] kempePair = getKempePair(ara);
-            if(kempePair==null){
+            if (kempePair == null) {
                 System.out.println("NULL found! Early termination at iteration: " + i);
                 break;
             }
@@ -109,7 +109,7 @@ public class Solver {
     }
 
     private Vertex[] getKempePair(ArrayList<Integer> ara) {
-        Collections.shuffle(ara);
+        Collections.shuffle(ara, random);
         for (int i = 0; i < ara.size(); i++) {
             for (int j = i + 1; j < ara.size(); j++) {
                 int uid = ara.get(i);
@@ -187,12 +187,8 @@ public class Solver {
     }
 
     private Vertex getRandomVertex() {
-        Vertex v;
-        do {
-            int randIdx = Math.abs(random.nextInt() % graph.size());
-            v = graph.get(randIdx);
-        } while (v.neighbors.size() == 0);
-        return v;
+        int randIdx = Math.abs(random.nextInt() % graph.size());
+        return graph.get(randIdx);
     }
 
     public static String[] getDataList() {
@@ -206,7 +202,7 @@ public class Solver {
     }
 
     public static void main(String[] args) {
-        System.out.print("Output pattern: [Timeslots, initial penalty, after kempe interchange, after pair swap]");
+        System.out.println("Output pattern: [Timeslots, initial penalty, after kempe interchange, after pair swap]");
         for (String d : Solver.getDataList()) {
             System.out.println("Dataset: " + d);
             int i = 1;
