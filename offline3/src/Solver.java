@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Solver {
@@ -90,6 +91,50 @@ public class Solver {
         return ara;
     }
 
+    public void runPairSwap(int iterations) {
+        ArrayList<Integer> ara = new ArrayList<>();
+        for (int i = 0; i < graph.size(); i++) ara.add(i);
+
+        for (int i = 0; i < iterations; i++) {
+            Vertex[] kempePair = getKempePair(ara);
+            if(kempePair==null){
+                System.out.println("NULL found! Early termination at iteration: " + i);
+                break;
+            }
+            double oldPenalty = calculatePenalty();
+            swapColors(kempePair[0], kempePair[1]);
+            double newPenalty = calculatePenalty();
+            if (newPenalty > oldPenalty) swapColors(kempePair[0], kempePair[1]);
+        }
+    }
+
+    private Vertex[] getKempePair(ArrayList<Integer> ara) {
+        Collections.shuffle(ara);
+        for (int i = 0; i < ara.size(); i++) {
+            for (int j = i + 1; j < ara.size(); j++) {
+                int uid = ara.get(i);
+                int vid = ara.get(j);
+                if (colors[uid] == colors[vid]) continue;
+                Vertex u = graph.get(uid);
+                Vertex v = graph.get(vid);
+                if (neighborContainsColor(u, colors[vid]) || neighborContainsColor(v, colors[uid]))
+                    continue;
+                return new Vertex[]{u, v};
+            }
+        }
+        return null;
+    }
+
+    private boolean neighborContainsColor(Vertex v, int color) {
+        boolean containsColor = false;
+        for (Vertex n : v.neighbors) {
+            if (colors[n.id - 1] != color) continue;
+            containsColor = true;
+            break;
+        }
+        return containsColor;
+    }
+
     private KempeChain getRandomKempeChain() {
         Vertex v = getRandomVertex();
         ArrayList<Vertex> chain = new ArrayList<>();
@@ -115,13 +160,19 @@ public class Solver {
     }
 
     public void runKempeInterchange(int iterations) {
-        double penalty = calculatePenalty();
         for (int i = 0; i < iterations; i++) {
             KempeChain kempeChain = getRandomKempeChain();
+            double oldPenalty = calculatePenalty();
             swapColors(kempeChain);
             double newPenalty = calculatePenalty();
-            if (newPenalty > penalty) swapColors(kempeChain);
+            if (newPenalty > oldPenalty) swapColors(kempeChain);
         }
+    }
+
+    private void swapColors(Vertex u, Vertex v) {
+        int temp = colors[u.id - 1];
+        colors[u.id - 1] = colors[v.id - 1];
+        colors[v.id - 1] = temp;
     }
 
     private void swapColors(KempeChain kempeChain) {
@@ -159,14 +210,18 @@ public class Solver {
             System.out.println("Dataset: " + d);
             int i = 1;
             for (CustomComparator c : ComparatorFactory.getComparatorList()) {
-                System.out.print("Using heuristic " + i + ": ");
+                System.out.print("Heuristic " + i + ": ");
                 Solver solver = new Solver(d, c);
                 solver.setPenaltyStrategy(new ExpoPenaltyStrategy());
                 long timeSlots = solver.solve();
                 double initPenalty = solver.calculatePenalty();
-                solver.runKempeInterchange(1000);
-                double newPenalty = solver.calculatePenalty();
-                System.out.printf("[Timeslots, initial penalty, after kempe interchange]=[%d, %.2f, %.2f]\n", timeSlots, initPenalty, newPenalty);
+                solver.runKempeInterchange(10);
+                double afterKempeChain = solver.calculatePenalty();
+                solver.runPairSwap(10);
+                double afterPairSwap = solver.calculatePenalty();
+                System.out.printf("[Timeslots, initial penalty, after kempe interchange, " +
+                        "after pair swap]=[%d, %.2f, %.2f, %.2f]\n",
+                        timeSlots, initPenalty, afterKempeChain, afterPairSwap);
                 i++;
             }
         }
