@@ -143,17 +143,17 @@ public class Solver {
         chain.add(v);
         int color1 = colors[v.id - 1];
         int maxColor = Arrays.stream(colors).max().getAsInt();
-        int color2 = random.nextInt() % (maxColor + 1);
-        int curColor = color2;
+        int color2 = Math.abs(random.nextInt() % (maxColor + 1));
         boolean[] visited = new boolean[graph.size()];
+        visited[v.id - 1] = true;
         while (!queue.isEmpty()) {
             Vertex front = queue.removeFirst();
-            visited[front.id - 1] = true;
+            int curColor = colors[front.id - 1] == color1 ? color2 : color1;
             for (Vertex n : front.neighbors) {
                 if (colors[n.id - 1] != curColor || visited[n.id - 1]) continue;
                 queue.add(n);
                 chain.add(n);
-                curColor = (curColor == color1) ? color2 : color1;
+                visited[n.id - 1] = true;
             }
         }
         return new KempeChain(chain, color1, color2);
@@ -179,10 +179,9 @@ public class Solver {
         int color1 = kempeChain.color1;
         int color2 = kempeChain.color2;
         ArrayList<Vertex> chain = kempeChain.chain;
-        int curColor = colors[chain.get(0).id - 1] == color1 ? color2 : color1;
         for (Vertex v : chain) {
-            colors[v.id - 1] = curColor;
-            curColor = (curColor == color1) ? color2 : color1;
+            if (colors[v.id - 1] == color1) colors[v.id - 1] = color2;
+            else colors[v.id - 1] = color1;
         }
     }
 
@@ -201,6 +200,22 @@ public class Solver {
         };
     }
 
+    public void validate() {
+        LinkedList<Vertex> list = new LinkedList<>();
+        list.add(graph.get(0));
+        boolean[] visited = new boolean[graph.size()];
+        visited[graph.get(0).id - 1] = true;
+        while (!list.isEmpty()) {
+            Vertex v = list.removeFirst();
+            for (Vertex n : v.neighbors) {
+                if (visited[n.id - 1]) continue;
+                if (colors[v.id - 1] == colors[n.id - 1]) throw new RuntimeException("Inconsistent graph!");
+                list.add(n);
+                visited[n.id - 1] = true;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Output pattern: [Timeslots, initial penalty, after kempe interchange, after pair swap]");
         for (String d : Solver.getDataList()) {
@@ -217,6 +232,7 @@ public class Solver {
                 solver.runPairSwap(2000);
                 double afterPairSwap = solver.calculatePenalty();
                 System.out.printf("[%d, %.2f, %.2f, %.2f]\n", timeSlots, initPenalty, afterKempeChain, afterPairSwap);
+                solver.validate();
                 i++;
             }
         }
