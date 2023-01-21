@@ -206,6 +206,7 @@ public class Solver {
     }
 
     public static void main(String[] args) {
+        System.out.print("Output pattern: [Timeslots, initial penalty, after kempe interchange, after pair swap]");
         for (String d : Solver.getDataList()) {
             System.out.println("Dataset: " + d);
             int i = 1;
@@ -215,13 +216,11 @@ public class Solver {
                 solver.setPenaltyStrategy(new ExpoPenaltyStrategy());
                 long timeSlots = solver.solve();
                 double initPenalty = solver.calculatePenalty();
-                solver.runKempeInterchange(10);
+                solver.runKempeInterchange(2000);
                 double afterKempeChain = solver.calculatePenalty();
-                solver.runPairSwap(10);
+                solver.runPairSwap(2000);
                 double afterPairSwap = solver.calculatePenalty();
-                System.out.printf("[Timeslots, initial penalty, after kempe interchange, " +
-                        "after pair swap]=[%d, %.2f, %.2f, %.2f]\n",
-                        timeSlots, initPenalty, afterKempeChain, afterPairSwap);
+                System.out.printf("[%d, %.2f, %.2f, %.2f]\n", timeSlots, initPenalty, afterKempeChain, afterPairSwap);
                 i++;
             }
         }

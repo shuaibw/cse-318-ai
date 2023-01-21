@@ -7,7 +7,8 @@ public class ComparatorFactory {
     public static CustomComparator getLargestDegreeCmp() {
         return new CustomComparator(
                 (v0, v1) -> Integer.compare(v1.neighbors.size(), v0.neighbors.size()),
-                false
+                false,
+                "LargestDegree"
         );
     }
 
@@ -18,21 +19,24 @@ public class ComparatorFactory {
                     if (res != 0) return res;
                     return Integer.compare(v1.neighbors.size(), v0.neighbors.size());
                 },
-                true
+                true,
+                "LargestSaturationDegree"
         );
     }
 
     public static CustomComparator getLargestEnrollCmp() {
         return new CustomComparator(
                 (v0, v1) -> Integer.compare(v1.enrolled, v0.enrolled),
-                false
+                false,
+                "LargestEnroll"
         );
     }
 
     public static CustomComparator getRandomCmp() {
         return new CustomComparator(
                 Comparator.comparingInt((Vertex o) -> random.nextBoolean() ? -1 : 1),
-                false
+                false,
+                "Random"
         );
     }
 
