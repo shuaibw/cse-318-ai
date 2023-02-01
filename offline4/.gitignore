@@ -4,3 +4,4 @@ minesweeper/Include/
 minesweeper/Lib/
 minesweeper/Scripts/
 minesweeper/pyvenv.cfg
+minesweeper/__pycache__/
