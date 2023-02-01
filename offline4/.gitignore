@@ -1,0 +1,6 @@
+# add gitignores for python venv
+
+minesweeper/Include/
+minesweeper/Lib/
+minesweeper/Scripts/
+minesweeper/pyvenv.cfg
