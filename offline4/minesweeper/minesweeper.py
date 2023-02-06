@@ -1,5 +1,6 @@
 import itertools
 import random
+random.seed(0x0FF1CE)
 
 
 class Minesweeper():
@@ -69,7 +70,9 @@ class Minesweeper():
                 # Ignore the cell itself
                 if (i, j) == cell:
                     continue
-
+                # Ignore the diagonal cell
+                if (abs(i-cell[0]) == abs(j-cell[1])):
+                    continue
                 # Update count if cell in bounds and is mine
                 if 0 <= i < self.height and 0 <= j < self.width:
                     if self.board[i][j]:
@@ -105,27 +108,34 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be mines.
         """
-        raise NotImplementedError
+        if (len(self.cells) == self.count):
+            return self.cells
+        return set()
 
     def known_safes(self):
         """
         Returns the set of all cells in self.cells known to be safe.
         """
-        raise NotImplementedError
+        if self.count == 0:
+            return self.cells
+        return set()
 
     def mark_mine(self, cell):
         """
         Updates internal knowledge representation given the fact that
         a cell is known to be a mine.
         """
-        raise NotImplementedError
+        if cell in self.cells:
+            self.cells.remove(cell)
+            self.count -= 1
 
     def mark_safe(self, cell):
         """
         Updates internal knowledge representation given the fact that
         a cell is known to be safe.
         """
-        raise NotImplementedError
+        if cell in self.cells:
+            self.cells.remove(cell)
 
 
 class MinesweeperAI():
@@ -182,7 +192,20 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
         """
-        raise NotImplementedError
+        self.moves_made.add(cell)
+        self.mark_safe(cell)
+
+        neighbors, count = self.get_non_diagonal_neighbors(cell, count)
+        if len(neighbors) > 0:
+            print(f"Action {cell} has added knowledge: {neighbors}={count}")
+            self.knowledge.append(Sentence(neighbors, count))
+        self.run_inference()
+
+        # print statistics
+        print("Knowledge base length: " + str(len(self.knowledge)))
+        print("Known mines: " + str(self.mines))
+        print("Safe moves remaining: " + str(self.safes - self.moves_made))
+        print("-----------------------------------------")
 
     def make_safe_move(self):
         """
@@ -193,7 +216,11 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
-        raise NotImplementedError
+        safe_moves = self.safes - self.moves_made
+        if not safe_moves:
+            return None
+        print("Available safe moves: " + str(safe_moves))
+        return random.choice(list(safe_moves))
 
     def make_random_move(self):
         """
@@ -202,4 +229,75 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
-        raise NotImplementedError
+        moves = set()
+        for i in range(self.height):
+            for j in range(self.width):
+                moves.add((i, j))
+        moves = moves - self.moves_made - self.mines
+        if not moves:
+            return None
+        m = random.choice(list(moves))
+        print(f"AI randomly picking {m}")
+        return m
+
+    def get_non_diagonal_neighbors(self, cell, count):
+        neighbors = set()
+        for i in range(cell[0]-1, cell[0]+2):
+            for j in range(cell[1]-1, cell[1]+2):
+                
+                if (i, j) == cell or i < 0 or j < 0 or i >= self.height or j >= self.width:
+                    continue
+                
+                # check if the cell lies in the diagonal
+                if (abs(i-cell[0]) == abs(j-cell[1])):
+                    continue
+                
+                # ignore the cell if it is already marked as safe
+                if (i, j) in self.safes:
+                    continue
+
+                # ignore the cell if it is already marked as mine
+                if (i, j) in self.mines:
+                    count -= 1  # the remaining neighbors will have one less mine
+                    continue
+
+                neighbors.add((i, j))
+        return (neighbors, count)
+
+    def run_inference(self):
+        updated = True
+        while updated:
+            updated = False
+            known_mines = set()
+            known_safes = set()
+            for sentence in self.knowledge:
+                known_mines = known_mines.union(sentence.known_mines())
+                known_safes = known_safes.union(sentence.known_safes())
+
+            for mine in known_mines:
+                self.mark_mine(mine)
+                updated = True
+            for safe in known_safes:
+                self.mark_safe(safe)
+                updated = True
+
+            # keep only the sentences that have non-zero length
+            self.knowledge = [s for s in self.knowledge if len(s.cells) > 0]
+            updated = self.infer_new_sentences()
+
+    def infer_new_sentences(self):
+        updated=False
+        for s1 in self.knowledge:
+            for s2 in self.knowledge:
+                if s1 == s2:
+                    continue
+                if s1.cells.issubset(s2.cells):
+                    new_cells = s2.cells - s1.cells
+                    new_count = s2.count - s1.count
+                    new_sentence = Sentence(new_cells, new_count)
+                    if new_sentence in self.knowledge or len(new_cells) == 0:
+                        continue
+                    self.knowledge.append(new_sentence)
+                    updated = True
+                    print(f"Inferred {new_sentence} using {s2} and {s1}")
+        return updated
